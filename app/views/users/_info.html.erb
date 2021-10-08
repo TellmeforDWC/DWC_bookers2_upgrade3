@@ -1,0 +1,30 @@
+<table class='table'>
+  <tr><%= attachment_image_tag user, :profile_image, size: "100x100", fallback: "no_image.jpg" %></tr>
+  <tr>
+	  <th>name</th>
+	  <th><%= user.name %></th>
+  </tr>
+  <tr>
+	  <th>introduction</th>
+	  <th><%= user.introduction %></th>
+  </tr>
+  <tr>
+    <th>followees</th>
+    <td><%= link_to "#{user.followees.count}", user_show_followees_path(user.id) %></td>
+  </tr>
+  <tr>
+    <th>followers</th>
+    <td><%= link_to "#{user.followers.count}", user_show_followers_path(user.id) %></td>
+  </tr>
+</table>
+
+<div class='row'>
+  <% if user.id == current_user.id %>
+    <%= link_to '', edit_user_path(user.id), class: "btn btn-outline-secondary btn-block fas fa-user-cog edit_user_#{user.id}" %>
+  <% elsif current_user.following?(user) %>
+    <%= link_to "UnFollow", user_relationships_path(user), method: :delete, class: 'btn btn-danger' %>
+  <% else %>
+     <%= link_to "Follow", user_relationships_path(user), method: :create, class: 'btn btn-info' %>
+  <% end %>
+</div>
+

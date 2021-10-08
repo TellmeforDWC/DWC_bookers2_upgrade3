@@ -1,0 +1,46 @@
+<% if @records.blank? %>
+  <%= "No Results" %>
+
+<% elsif @model == "Book" %>
+  <h2>Books search for "<%= @content %>"</h2>
+  <% @records.each do |record| %>
+    <table class="table">
+      <tr>
+        <th>User</th>
+        <th>Title</th>
+        <th>Opinion</th>
+      </tr>
+      <tr>
+        <td><%= link_to user_path(record.user.id) do %>
+              <%= attachment_image_tag record.user, :profile_image, size: "30x30", fallback: "no_image.jpg" %>
+            <% end %>
+        </td>
+        <td><%= link_to "#{record.title}", book_path(record.id) %></td>
+        <td><%= record.body %></td>
+      </tr>
+    </table>
+  <% end %>
+
+<% elsif @model == "User" %>
+  <h2>Users search for "<%= @content %>"</h2>
+  <% @records.each do |record| %>
+    <table class="table">
+      <tr>
+        <th>User Image</th>
+        <th>User Name</th>
+        <th>Introduction</th>
+        <th></th>
+      </tr>
+      <tr>
+        <td><%= attachment_image_tag record, :profile_image, size: "30x30", fallback: "no_image.jpg" %></td>
+        <td><%= record.name %></td>
+        <td><%= record.introduction %></td>
+        <td><%= link_to "Show", user_path(record.id) %></td>
+      </tr>
+    </table>
+  <% end %>
+
+<% else %>
+ <%= "something is wrong" %>
+
+<% end %>

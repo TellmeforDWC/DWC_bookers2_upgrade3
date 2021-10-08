@@ -1,0 +1,27 @@
+<table class='table'>
+  <thead>
+    <tr>
+      <th>image</th>
+      <th>name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td><%= attachment_image_tag(user, :profile_image, size: "50x50", fallback: "no-image-icon.jpg") %></td>
+        <td><%= user.name %></td>
+        <td>フォロー数：<%= user.followees.count%></td>
+        <td>フォロワー数：<%= user.followers.count %></td>
+        <% if user.id == current_user.id %>
+          <td></td>
+        <% elsif current_user.following?(user) %>
+          <td><%= link_to "UnFollow", user_relationships_path(user), method: :delete, class: 'btn btn-danger' %></td>
+        <% else %>
+          <td><%= link_to "Follow", user_relationships_path(user), method: :create, class: 'btn btn-info' %></td>
+        <% end %>
+        <td><%= link_to 'Show', user_path(user), class: "user_#{user.id}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
